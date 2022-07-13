@@ -9,9 +9,13 @@ edition = "2021"
 
 rdev = {version = '0.5.1', features = ['serialize']}
 serde_json = '1'
-tokio = '1.19.2'
+tokio = { version = '1.19.2', features = ['full'] }
+tokio-util = '0.7'
 hyper = {version = "0.14", features = ['full']}
 monoio = {path= '../monoio/monoio'}
+lazy_static = "1"
+libc = "0.2"
+bytes = "1"
 
 [lib]
 crate-type = ["cdylib", "staticlib", "rlib"]
@@ -39,3 +43,8 @@ crate-type = ["cdylib", "staticlib", "rlib"]
 # edition = "2015"       # The edition of the target.
 # crate-type = ["lib"]   # The crate types to generate.
 # required-features = [] # Features required to build this target (N/A for lib).
+
+
+[target.x86_64-unknown-linux-gnu]
+linker = "clang"
+rustflags = ["-C", "link-arg=-fuse-ld=/usr/bin/mold"]
