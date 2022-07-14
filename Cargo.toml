@@ -16,6 +16,8 @@ monoio = {path= '../monoio/monoio'}
 lazy_static = "1"
 libc = "0.2"
 bytes = "1"
+tower = "0.4"
+tower-http = "0.3"
 
 [lib]
 crate-type = ["cdylib", "staticlib", "rlib"]
