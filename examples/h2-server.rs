@@ -39,17 +39,17 @@ async fn handle_h2(stream: TcpStream) -> Result<(), Box<dyn std::error::Error + 
 }
 
 async fn handle_h2_stream(
-    _request: Request<RecvStream>,
+    mut request: Request<RecvStream>,
     mut response: SendResponse<Bytes>,
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
     println!("start handle h2 stream");
     // send h2 response
-    // let body = request.body_mut();
-    // while let Some(data) = body.data().await {
-    //     let data = data?;
-    //     // release more flow control
-    //     body.flow_control().release_capacity(data.len())?;
-    // }
+    let body = request.body_mut();
+    while let Some(data) = body.data().await {
+        let data = data?;
+        // release more flow control
+        body.flow_control().release_capacity(data.len())?;
+    }
     println!("creating response");
     // create response
     let resp = http::Response::new(());
