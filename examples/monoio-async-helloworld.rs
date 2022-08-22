@@ -1,7 +1,7 @@
 use std::sync::mpsc::channel;
 
 #[monoio::main]
-async fn main(){
+async fn main() {
     let msg = "hello world!";
     let (tx, rx) = channel();
     let _ = tx.send(msg);
@@ -12,5 +12,6 @@ async fn main(){
         } else {
             eprintln!("error!")
         }
-    }).await;
+    })
+    .await;
 }

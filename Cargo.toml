@@ -18,6 +18,9 @@ libc = "0.2"
 bytes = "1"
 tower = "0.4"
 tower-http = "0.3"
+h2 = "0.3"
+anyhow = "1"
+http = "0.2"
 
 [lib]
 crate-type = ["cdylib", "staticlib", "rlib"]

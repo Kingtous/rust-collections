@@ -4,9 +4,7 @@
 // fn layer(&self, inner: S) -> Self::Service;
 // }
 
-use std::net::SocketAddr;
-
-use hyper::{service::make_service_fn, Body, Error, Request, Server};
+use hyper::{Body, Request};
 use tower::{Layer, Service, ServiceBuilder};
 
 pub struct LoggerLayer {
