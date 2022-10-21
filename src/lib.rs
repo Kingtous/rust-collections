@@ -13,6 +13,7 @@
 /// ret: str = ret.decode()
 /// assert ret == "hello world from rust!"
 ///
+///
 
 #[no_mangle]
 pub fn hello_world_ffi() -> &'static str {

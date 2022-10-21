@@ -1,10 +1,8 @@
-use core::num;
 use std::vec;
 
 struct Solution;
 
 impl Solution {
-
     pub fn remove_leading_zero(num: String) -> String {
         let mut index = 0;
         for ch in num.chars() {
@@ -27,7 +25,7 @@ impl Solution {
         }
 
         let mut buf: Vec<u8> = vec![];
-        buf.reserve(std::cmp::max(num1.len(),num2.len()) + 1);
+        buf.reserve(std::cmp::max(num1.len(), num2.len()) + 1);
         // short long
         let long_one;
         let short_one = if num1.len() > num2.len() {
@@ -75,7 +73,9 @@ impl Solution {
     }
 }
 
-
 fn main() {
-    println!("{}", Solution::add_strings("408".to_string(), "5".to_string()));
+    println!(
+        "{}",
+        Solution::add_strings("408".to_string(), "5".to_string())
+    );
 }

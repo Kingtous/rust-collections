@@ -1,4 +1,4 @@
-use std::{collections::HashMap, hash::Hash};
+use std::collections::HashMap;
 
 fn main() {
     let mut map = HashMap::<String, i64>::new();

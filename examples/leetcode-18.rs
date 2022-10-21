@@ -17,7 +17,7 @@ impl Solution {
         let mut result: Vec<i32> = vec![];
         let mut key: Vec<String> = vec![];
         // clean nums
-        let mut new_nums= vec![];
+        let mut new_nums = vec![];
 
         let mut last_num = -1;
         let mut cnt = 0;
@@ -37,7 +37,14 @@ impl Solution {
         }
         println!("{:?}", new_nums);
         let index = new_nums.len() - 1;
-        Solution::dfs(&new_nums, index, target as i64, &mut result, &mut res, &mut key);
+        Solution::dfs(
+            &new_nums,
+            index,
+            target as i64,
+            &mut result,
+            &mut res,
+            &mut key,
+        );
         res
     }
 
@@ -48,7 +55,7 @@ impl Solution {
         mut target: i64,
         result: &mut Vec<i32>,
         output: &mut Vec<Vec<i32>>,
-        keys: &mut Vec<String>
+        keys: &mut Vec<String>,
     ) {
         if result.len() >= 4 && target != 0 {
             return;
@@ -79,9 +86,9 @@ impl Solution {
         }
 
         if index != 0 {
-            Solution::dfs(nums, index - 1, target, result, output,keys);
+            Solution::dfs(nums, index - 1, target, result, output, keys);
             result.pop().unwrap();
-            Solution::dfs(nums, index - 1, target + num, result, output,keys);
+            Solution::dfs(nums, index - 1, target + num, result, output, keys);
         } else {
             result.pop().unwrap();
         }
@@ -89,6 +96,6 @@ impl Solution {
 }
 
 pub fn main() {
-    let nums = vec![1000000000,1000000000,1000000000,1000000000];
+    let nums = vec![1000000000, 1000000000, 1000000000, 1000000000];
     println!("four sum is: {:?}", Solution::four_sum(nums, -294967296));
 }

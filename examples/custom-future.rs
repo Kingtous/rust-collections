@@ -1,8 +1,7 @@
-use core::time;
 use std::{future::Future, task::Poll, time::Duration};
 
 use pin_project_lite::pin_project;
-use tokio::time::{Sleep, sleep_until, Instant};
+use tokio::time::{sleep_until, Instant, Sleep};
 
 pin_project! {
     pub struct Timeout{
@@ -11,17 +10,21 @@ pin_project! {
     }
 }
 
-
 impl Default for Timeout {
     fn default() -> Self {
-        Self { sleep: sleep_until(Instant::now() + Duration::from_millis(000)) }
+        Self {
+            sleep: sleep_until(Instant::now() + Duration::from_millis(000)),
+        }
     }
 }
 
 impl Future for Timeout {
     type Output = String;
 
-    fn poll(self: std::pin::Pin<&mut Self>, cx: &mut std::task::Context<'_>) -> std::task::Poll<Self::Output> {
+    fn poll(
+        self: std::pin::Pin<&mut Self>,
+        cx: &mut std::task::Context<'_>,
+    ) -> std::task::Poll<Self::Output> {
         println!("poll!");
         let me = self.project();
         match me.sleep.poll(cx) {
