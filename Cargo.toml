@@ -22,6 +22,7 @@ h2 = "0.3"
 anyhow = "1"
 http = "0.2"
 pin-project-lite = "0.2.9"
+io-uring = "0.5.8"
 
 [lib]
 crate-type = ["cdylib", "staticlib", "rlib"]
