@@ -23,6 +23,8 @@ anyhow = "1"
 http = "0.2"
 pin-project-lite = "0.2.9"
 io-uring = "0.5.8"
+errno = "0.2.8"
+futures = "0.3.25"
 
 [lib]
 crate-type = ["cdylib", "staticlib", "rlib"]
