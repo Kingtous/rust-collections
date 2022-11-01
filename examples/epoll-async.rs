@@ -34,7 +34,7 @@ lazy_static! {
 
 fn main() {
     println!("current PID: {}", std::process::id());
-    // 同时监听两个端口
+    // 使用所有的核来运行
     let cpus = std::thread::available_parallelism()
         .unwrap_or(NonZeroUsize::new(1).unwrap())
         .get();
