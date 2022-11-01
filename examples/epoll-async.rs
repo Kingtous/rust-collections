@@ -1,9 +1,8 @@
 use std::{
-    cell::{RefCell, UnsafeCell},
     collections::HashMap,
     future::Future,
     io::{Cursor, Read},
-    net::{SocketAddr, TcpListener},
+    num::NonZeroUsize,
     pin::Pin,
     process::exit,
     ptr::addr_of_mut,
@@ -15,8 +14,8 @@ use errno::errno;
 use lazy_static::lazy_static;
 use libc::{
     accept, bind, epoll_create1, epoll_ctl, epoll_event, epoll_wait, fcntl, listen, send,
-    setsockopt, sockaddr, sockaddr_in, sockaddr_un, socket, socklen_t, ssize_t, write, AF_INET,
-    EAGAIN, EINTR, EPOLLIN, EPOLL_CTL_ADD, EPOLL_CTL_DEL, EPOLL_CTL_MOD, EWOULDBLOCK, F_SETFL,
+    setsockopt, sockaddr_in, socket, write, AF_INET,
+    EAGAIN, EINTR, EPOLLIN, EPOLL_CTL_ADD, EPOLL_CTL_MOD, EWOULDBLOCK, F_SETFL,
     O_NONBLOCK, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR, SO_REUSEPORT,
 };
 
@@ -36,11 +35,13 @@ lazy_static! {
 fn main() {
     println!("current PID: {}", std::process::id());
     // 同时监听两个端口
-    spawn(start_server(8080));
-    spawn(start_server(8080));
-    spawn(start_server(8080));
-    spawn(start_server(8080));
-    // spawn(start_server(8081));
+    let cpus = std::thread::available_parallelism()
+        .unwrap_or(NonZeroUsize::new(1).unwrap())
+        .get();
+    for i in 0..cpus {
+        println!("start server on core {}", i);
+        spawn(start_server(8080));
+    }
     EXECUTOR.write().unwrap().run();
 }
 
@@ -329,7 +330,7 @@ struct AsyncAccept {
 impl Future for AsyncAccept {
     type Output = Result<Client, i32>;
 
-    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+    fn poll(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Self::Output> {
         let this = self.get_mut();
         let mut addr_len = std::mem::size_of_val(&this.client_addr);
         let accept_fd;
@@ -376,7 +377,7 @@ struct AsyncWrite {
 impl Future for AsyncWrite {
     type Output = Result<isize, i32>;
 
-    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+    fn poll(self: Pin<&mut Self>, _cx: &mut Context<'_>) -> Poll<Self::Output> {
         let this = self.get_mut();
         let ret;
         unsafe {
