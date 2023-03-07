@@ -19,11 +19,10 @@ fn on_active(app: &gtk::Application) {
         let (dx,dy ) = window.position();
         let (width,height ) = window.size();
         window.hide();
+        window.move_(dx, dy);
+        window.resize(width, height);
         glib::timeout_add_local(Duration::from_secs(1), clone!(@strong window => move || {
             window.show_all();
-
-            window.move_(dx, dy);
-            window.resize(width, height);
             Continue(false)
         }));
     }));
